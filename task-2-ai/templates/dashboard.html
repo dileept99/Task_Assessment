@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Iron Lady – Enquiry Dashboard</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>Enquiry Management Dashboard</h1>
+  <p class="subtitle">Internal tool to manage learner enquiries efficiently</p>
+
+  <form method="POST" action="/add" class="card">
+  <h2>Add New Enquiry</h2>
+
+  <div class="form-row">
+    <label>Name</label>
+    <input name="name" required>
+  </div>
+
+  <div class="form-row">
+    <label>Email</label>
+    <input name="email" required>
+  </div>
+
+  <div class="form-row">
+    <label>Learner background</label>
+    <textarea name="background"></textarea>
+  </div>
+
+  <div class="form-row">
+    <label>Career goal</label>
+    <textarea name="goal"></textarea>
+  </div>
+
+  <div class="form-row">
+    <label>Concern</label>
+    <textarea name="concern"></textarea>
+  </div>
+
+  <button>Add Enquiry</button>
+</form>
+
+
+  <h2>All Enquiries</h2>
+
+  {% for e in enquiries %}
+  <div class="card">
+    <strong>{{ e.name }}</strong> ({{ e.email }})
+    <p><b>Status:</b> {{ e.status }}</p>
+
+    <form method="POST" action="/update/{{ e.id }}">
+      <select name="status">
+        <option>New</option>
+        <option>Contacted</option>
+        <option>Interested</option>
+        <option>Enrolled</option>
+      </select>
+      <button>Update Status</button>
+    </form>
+
+    <a href="/ai/{{ e.id }}">Run AI Assist</a> |
+    <a href="/delete/{{ e.id }}">Delete</a>
+
+    {% if e.ai_summary %}
+      <div class="ai-box">
+        <b>AI Summary:</b>
+        <p>{{ e.ai_summary }}</p>
+      </div>
+    {% endif %}
+  </div>
+  {% endfor %}
+
+</div>
+
+</body>
+</html>

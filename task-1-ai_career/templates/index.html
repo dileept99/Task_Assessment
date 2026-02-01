@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Iron Lady – Career Clarity Companion</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+  <h1>Career Clarity Companion</h1>
+  <p class="subtitle">
+    Helping women choose the right leadership path with confidence.
+  </p>
+
+  <div class="form-group">
+    <label>Your current background</label>
+    <textarea id="background" placeholder="Education, role, or current situation"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Your career goal</label>
+    <textarea id="goal" placeholder="What kind of role or growth are you aiming for?"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Experience or career break</label>
+    <textarea id="experience" placeholder="Years of experience, career gap, or transitions"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Your biggest concern right now</label>
+    <textarea id="concern" placeholder="Confidence, direction, time, learning ability, etc."></textarea>
+  </div>
+
+
+
+    <button onclick="getRecommendation()">Get Guidance</button>
+
+    <div id="output"></div>
+  </div>
+
+  <script>
+    function getRecommendation() {
+      fetch("/recommend", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          background: background.value,
+          goal: goal.value,
+          experience: experience.value,
+          concern: concern.value
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("output").innerText = data.response;
+      });
+    }
+  </script>
+</body>
+</html>
